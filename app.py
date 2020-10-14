@@ -12,7 +12,7 @@ app = Flask(__name__)
 def index():
 	return "Hello, World!"
 
-@app.route('/mfrc522/api/v1/read')
+@app.route('/mfrc522/api/read')
 def read_card():
 	reader = SimpleMFRC522()
 	dataObject = {}
@@ -24,14 +24,14 @@ def read_card():
 		GPIO.cleanup()
 	return jsonify(dataObject)
 
-@app.route('/mfrc522/api/v1/write/<data>')
+@app.route('/mfrc522/api/write/<data>')
 def write_card(data):
 	reader = SimpleMFRC522()
 	dataObject = {}
 	try:
 		id, text = reader.read()
 		reader.write(data)
-		dataObject = {'id':id, 'data':text}
+		dataObject = {'id':id, 'data':data}
 	finally:
 		GPIO.cleanup()
 	return jsonify(dataObject)
